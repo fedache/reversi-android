@@ -29,19 +29,35 @@ class Board {
     }
 
     fun play(position: String) {
-        makeMove(position, board)
-        currentPlayer = inversePlayer()
+        if (makeMovePos(position, board))
+            currentPlayer = inversePlayer()
     }
 
-    fun playNewBoard(position: String): Board {
+    fun play(row: Int, col: Int) {
+        if (makeMove(row, col, board))
+            currentPlayer = inversePlayer()
+    }
+
+    fun playNewBoard(pair: Pair<Int,Int>): Board {
         val board = board.map { it.clone() }.toTypedArray()
-        makeMove(position, board)
-        val currentPlayer = inversePlayer()
-        return Board(board, currentPlayer)
+        if (makeMove(pair.first, pair.second, board)) {
+            val currentPlayer = inversePlayer()
+            return Board(board, currentPlayer)
+        } else {
+            return this
+        }
     }
 
-    private fun makeMove(position: String, board: Array<Array<Int>>) {
+    private fun makeMovePos(position: String, board: Array<Array<Int>>): Boolean {
         val (row, col) = positionToIndices(position)
+        return makeMove(row, col, board)
+    }
+
+    private fun makeMove(
+        row: Int,
+        col: Int,
+        board: Array<Array<Int>>
+    ): Boolean {
         val positionCaptured: List<CaptureDirection> = positionCaptured(row, col)
 
         if (positionCaptured.isNotEmpty()) {
@@ -54,20 +70,22 @@ class Board {
                     j += cap.stepY
                 } while (i - cap.row != 0 || j - cap.col != 0)
             }
+            return true
         }
+        return false
     }
 
     fun at(row: Int, col: Int): Int {
         return board[row][col]
     }
 
-    fun availablePlays(player: Int = currentPlayer): List<String> {
-        val list = arrayListOf<String>()
+    fun availablePlays(player: Int = currentPlayer): List<Pair<Int, Int>> {
+        val list = arrayListOf<Pair<Int, Int>>()
         for (i in 0 until size) {
             for (j in 0 until size) {
                 val positions = positionCaptured(i, j, player)
                 if (positions.isNotEmpty()) {
-                    list.add(indexToPosition(i, j))
+                    list.add(Pair(i, j))
                 }
             }
         }
@@ -112,7 +130,11 @@ class Board {
 
     fun inversePlayer(player: Int = currentPlayer) = if (player == BLACK) WHITE else BLACK
 
-    private fun positionCaptured(row: Int, col: Int, player: Int = currentPlayer): List<CaptureDirection> {
+    private fun positionCaptured(
+        row: Int,
+        col: Int,
+        player: Int = currentPlayer
+    ): List<CaptureDirection> {
         if (board[row][col] != EMPTY_STATE) return emptyList()
         val opponent = inversePlayer(player)
 
@@ -131,7 +153,8 @@ class Board {
                 c += direction.second
                 hasOpponent = true
             }
-            val validDirection = hasOpponent && r in 0 until size && c in 0 until size && board[r][c] == player
+            val validDirection =
+                hasOpponent && r in 0 until size && c in 0 until size && board[r][c] == player
             if (validDirection) {
                 captures.add(CaptureDirection(r, c, direction.first, direction.second))
             }

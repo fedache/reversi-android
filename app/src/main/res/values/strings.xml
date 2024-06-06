@@ -2,4 +2,18 @@
     <string name="app_name">Reversi</string>
     <string name="single_player">Single Player</string>
     <string name="multi_minmax">Multiplayer | Min Max</string>
+    <string name="reversi">Reversi</string>
+
+    <string name="black_label">Black</string>
+    <string name="white_label">White</string>
+    <string name="draw_label">Draw</string>
+    <string name="empty" />
+
+    <string name="black_wins">Black Wins!</string>
+    <string name="white_wins">White Wins!</string>
+    <string name="draw">Draw!</string>
+
+    <string name="player">%1$s players turn</string>
+    <string name="white_count">White Count %1$s</string>
+    <string name="black_count">Black Count %1$s</string>
 </resources>

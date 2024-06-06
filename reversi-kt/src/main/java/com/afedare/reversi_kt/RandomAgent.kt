@@ -12,7 +12,7 @@ object RandomAgent {
                 println(availablePlays)
                 val randomPlay = Random.nextInt(0, availablePlays.size)
                 println("Player $currentPlayer plays:  ${availablePlays[randomPlay]}")
-                board.play(availablePlays[randomPlay])
+                board.play(availablePlays[randomPlay].first, availablePlays[randomPlay].second)
                 println(board.displayBoard())
             } else {
                 board.skip()

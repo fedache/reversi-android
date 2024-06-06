@@ -13,7 +13,7 @@ object MinMaxVsRandomAgent {
             val availablePlays = board.availablePlays(currentPlayer)
             if (availablePlays.isNotEmpty()) {
                 println(availablePlays)
-                var chosenPlay: String
+                var chosenPlay: Pair<Int, Int>
                 if (currentPlayer == WHITE) {
                     val randomIndex = Random.nextInt(0, availablePlays.size)
                     chosenPlay = availablePlays[randomIndex]
@@ -22,7 +22,7 @@ object MinMaxVsRandomAgent {
                 }
                 val score = evaluate(board, currentPlayer == BLACK)
                 println("Player $currentPlayer plays:  $chosenPlay, Score: $score")
-                board.play(chosenPlay)
+                board.play(chosenPlay.first, chosenPlay.second)
                 println(board.displayBoard())
             } else {
                 board.skip()
@@ -32,9 +32,9 @@ object MinMaxVsRandomAgent {
     }
 }
 
-fun minMax(board: Board, initAvailablePlays: List<String>): String {
+fun minMax(board: Board, initAvailablePlays: List<Pair<Int, Int>>): Pair<Int, Int> {
     var maxScore: Int = Int.MIN_VALUE
-    var bestPlay: String = initAvailablePlays.first()
+    var bestPlay = initAvailablePlays.first()
     val depth = 4
     println("Depth: $depth")
     for (play in initAvailablePlays) {
