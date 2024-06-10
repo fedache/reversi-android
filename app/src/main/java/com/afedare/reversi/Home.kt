@@ -1,4 +1,4 @@
-package com.afedare.reversi.home
+package com.afedare.reversi
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,15 +12,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.afedare.reversi.R
 
 
 @Composable
 fun Home(nav: NavController? = null) {
     val singlePlayer = stringResource(R.string.single_player)
+    val multiPlayerMinMax = stringResource(R.string.multi_minmax)
     val items: List<String> = mutableListOf(
-        singlePlayer,
-        stringResource(R.string.multi_minmax)
+        singlePlayer, multiPlayerMinMax
     )
     Column(
         modifier = Modifier.padding(12.dp),
@@ -33,6 +32,8 @@ fun Home(nav: NavController? = null) {
                     .clickable(true, onClick = {
                         if (message == singlePlayer) {
                             nav?.navigate("single")
+                        } else if (message == multiPlayerMinMax) {
+                            nav?.navigate("multiminmax")
                         }
                     }), style = MaterialTheme.typography.bodyMedium)
         }

@@ -5,19 +5,19 @@ import kotlin.random.Random
 object RandomAgent {
     fun play() {
         val board = Board()
-        while (board.winner() == Player.NO_WINNER) {
+        while (true) {
             val currentPlayer = board.currentPlayer()
-            val availablePlays = board.availablePlays(currentPlayer)
-            if (availablePlays.isNotEmpty()) {
-                println(availablePlays)
+            val winner = board.nextPlay { i, availablePlays ->
                 val randomPlay = Random.nextInt(0, availablePlays.size)
                 println("Player $currentPlayer plays:  ${availablePlays[randomPlay]}")
-                board.play(availablePlays[randomPlay].first, availablePlays[randomPlay].second)
-                println(board.displayBoard())
-            } else {
-                board.skip()
+                return@nextPlay availablePlays[randomPlay]
             }
+            if (winner != Winner.NO_WINNER) {
+                println("Winner $winner")
+                break
+            }
+            println("Player $currentPlayer")
+            println(board.displayBoard())
         }
-        println("Winner ${board.winner()}")
     }
 }
