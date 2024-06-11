@@ -3,6 +3,7 @@ package com.afedare.reversi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,12 +24,13 @@ fun Home(nav: NavController? = null) {
     )
     Column(
         modifier = Modifier.padding(12.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(2.dp),
     ) {
         items.forEach { message: String ->
             Text(message,
                 Modifier
-                    .padding(3.dp)
+                    .fillMaxWidth()
+                    .padding(8.dp)
                     .clickable(true, onClick = {
                         if (message == singlePlayer) {
                             nav?.navigate("single")
